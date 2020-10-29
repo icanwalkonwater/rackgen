@@ -11,7 +11,8 @@ use std::os::raw::c_char;
 
 const SYM_SECTION_NAME: &str = ".dynsym";
 
-pub fn search_api_funcs(mut file: File) -> anyhow::Result<Vec<String>> {
+pub fn search_api_funcs(file: &str) -> anyhow::Result<Vec<String>> {
+    let mut file = File::open(file)?;
     let mut elf = elfkit::Elf::from_reader(&mut file).unwrap();
 
     let section_index = elf

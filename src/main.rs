@@ -2,10 +2,8 @@ use std::fs::File;
 use std::path::Path;
 
 use clap::{App, Arg};
-
-mod gen;
-mod search;
-mod sig;
+use rackgen::search::{search_api_funcs, search_api_fun_sig};
+use rackgen::gen::gen_js;
 
 fn main() -> anyhow::Result<()> {
     let app = App::new("rackgen")
@@ -28,8 +26,8 @@ fn main() -> anyhow::Result<()> {
     let matches = app.get_matches();
 
     if let Some(input_file) = matches.value_of("input") {
-        let funcs = search::search_api_funcs(File::open(input_file)?)?;
-        let sigs = search::search_api_fun_sig(input_file, &funcs)?;
+        let funcs = search_api_funcs(input_file)?;
+        let sigs = search_api_fun_sig(input_file, &funcs)?;
 
         let input_file = Path::new(input_file);
         let libname = input_file
@@ -47,7 +45,7 @@ fn main() -> anyhow::Result<()> {
                 String::from(&libname[..libname.len() - ext_len - 1])
             });
 
-        println!("{}", gen::gen_js(&libname, &pretty_class, &sigs));
+        println!("{}", gen_js(&libname, &pretty_class, &sigs));
     }
 
     Ok(())

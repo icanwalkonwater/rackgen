@@ -6,8 +6,18 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+crate-type = ["cdylib"]
+
+[[bin]]
+name = "rackgen"
+required-features = ["bin-deps"]
+
+[features]
+bin-deps = ["clap"]
+
 [dependencies]
-clap = "^2.33.3"
+clap = { version = "^2.33.3", optional = true }
 anyhow = "^1.0.33"
 regex = "^1.4.1"
 elfkit = "^0.0.7"
