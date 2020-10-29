@@ -1,13 +1,13 @@
 use std::collections::HashSet;
-use std::ffi::{OsStr, CStr};
+use std::ffi::{CStr, OsStr};
 use std::fs::File;
 use std::os::unix::ffi::OsStrExt;
 
+use crate::sig::{parse_sig, FunSig};
 use elfkit::section::SectionContent;
 use elfkit::types::SymbolType;
-use sharedlib::{Lib, Data, Symbol};
+use sharedlib::{Data, Lib, Symbol};
 use std::os::raw::c_char;
-use crate::sig::{FunSig, parse_sig};
 
 const SYM_SECTION_NAME: &str = ".dynsym";
 

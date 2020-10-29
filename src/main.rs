@@ -3,8 +3,8 @@ use std::path::Path;
 
 use clap::{App, Arg};
 
-mod search;
 mod gen;
+mod search;
 mod sig;
 
 fn main() -> anyhow::Result<()> {
@@ -44,7 +44,7 @@ fn main() -> anyhow::Result<()> {
             .unwrap_or_else(|| {
                 // Strip extension
                 let ext_len = input_file.extension().map_or(0, |e| e.len());
-                String::from(&libname[..libname.len() - ext_len-1])
+                String::from(&libname[..libname.len() - ext_len - 1])
             });
 
         println!("{}", gen::gen_js(&libname, &pretty_class, &sigs));

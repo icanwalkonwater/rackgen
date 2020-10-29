@@ -2,7 +2,7 @@ use std::ops::Index;
 
 use regex::Regex;
 
-use crate::sig::{FunSig, ArgTy};
+use crate::sig::{ArgTy, FunSig};
 
 pub fn gen_js(libname: &str, pretty_libname: &str, funcs: &[FunSig]) -> String {
     let mut buffer = String::new();
@@ -56,7 +56,10 @@ pub fn gen_js(libname: &str, pretty_libname: &str, funcs: &[FunSig]) -> String {
                 ArgTy::Number => "Number",
             };
 
-            buffer.push_str(&format!("    if (arg{}.constructor !== {}) throw TypeError();\n", i, constructor_type));
+            buffer.push_str(&format!(
+                "    if (arg{}.constructor !== {}) throw TypeError();\n",
+                i, constructor_type
+            ));
         }
 
         // Gen call
@@ -71,10 +74,10 @@ pub fn gen_js(libname: &str, pretty_libname: &str, funcs: &[FunSig]) -> String {
                 ArgTy::Buff => {
                     buffer.push_str(&format!("      [ \"len\", arg{}.length ],\n", i));
                     buffer.push_str(&format!("      [ \"buf\", arg{} ],\n", i));
-                },
+                }
                 ArgTy::Number => {
                     buffer.push_str(&format!("      [ \"f64\", arg{} ],\n", i));
-                },
+                }
             }
         }
 
